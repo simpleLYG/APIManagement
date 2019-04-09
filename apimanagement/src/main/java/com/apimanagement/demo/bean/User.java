@@ -20,6 +20,8 @@ public class User {
 
     private String phone;
 
+    private String email;
+
     private int sex;
 
     private Date birth;

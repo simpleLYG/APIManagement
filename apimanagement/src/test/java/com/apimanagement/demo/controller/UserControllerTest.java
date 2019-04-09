@@ -17,11 +17,6 @@ public class UserControllerTest {
 
     @Test
     public void usernameTest(){
-        User user = userDao.findByUsername("lyg");
-//        if(user == null){
-//            System.out.println("null");
-//        }
-        System.out.println(user);
     }
 
 }
