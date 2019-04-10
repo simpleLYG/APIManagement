@@ -10,18 +10,16 @@ import com.apimanagement.demo.utils.MessageUtil;
 import com.apimanagement.demo.vo.LoginResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
-public class UserController {
+public class UserLoginController {
 
     @Autowired
     UserDao userDao;
@@ -32,13 +30,13 @@ public class UserController {
     }
 
     @RequestMapping("/phoneLogin")
-    public String phoneLoginPage(HttpServletResponse response){
-        CookieUtil.set(response, "13142122283", "123456", 5*3600);
+    public String phoneLoginPage(){
         return "phoneLogin";
     }
 
     @PostMapping("/emailLoginRequest")
     public ModelAndView emailLoginRequest(EmailLoginForm emailLoginForm,
+
                                      Map<String, Object> map){
 
         User user = userDao.findByEmail(emailLoginForm.getEmail());
@@ -88,8 +86,18 @@ public class UserController {
             return new ModelAndView("phoneLogin", map);
         }
 
+        if(user.getRoleId() == UserRoleEnums.ROLE_USER.getCode()){
+            map.put("loginResult", new LoginResult(200, "普通用户登陆成功"));
+            return new ModelAndView("redirect:/userIndex", map);
+        }
+
+        if(user.getRoleId() == UserRoleEnums.ROLE_ADMIN.getCode()){
+            map.put("loginResult", new LoginResult(210, "管理员登陆成功"));
+            return new ModelAndView("redirect:/managerIndex", map);
+        }
+
         System.out.println("验证码正确");
-        return new ModelAndView("emailLogin", map);
+        return new ModelAndView("phoneLogin", map);
     }
 
     /**
@@ -99,7 +107,7 @@ public class UserController {
      * @param map
      * @return
      */
-    @RequestMapping("/sendIdentifyingCode")
+    @RequestMapping("/sendLoginIdentifyingCode")
     public ModelAndView sendIdentifyingCode(HttpServletResponse response,
                                             String phone,
                                             Map<String, Object> map){

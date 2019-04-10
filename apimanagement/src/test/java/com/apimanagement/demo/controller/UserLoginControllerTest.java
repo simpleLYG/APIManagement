@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import static org.junit.Assert.*;
 
 
-public class UserControllerTest {
+public class UserLoginControllerTest {
 
     @Resource
     UserDao userDao;
