@@ -100,7 +100,7 @@ public class MessageUtil {
 
     public static void sendMessage(HttpServletResponse response,
                                    String sendPhoneNum){
-        String code = String.valueOf(RandomNumUtil.createRandomNum(RANDOM_NUM));
+        String code = RandomNumUtil.createRandomNum(RANDOM_NUM);
 //        String desc = "尊敬的用户，您好，您正在注册【COOCAA CLUB APIShop】，您的验证码为："+code+"，请于" + TIMEOUT + "分钟内正确输入，如非本人操作，请忽略此短信。";
 //        Integer resultCode = send("simplelyg", "d41d8cd98f00b204e980", sendPhoneNum, desc);
 //

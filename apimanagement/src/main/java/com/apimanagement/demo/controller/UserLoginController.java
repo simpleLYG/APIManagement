@@ -6,6 +6,7 @@ import com.apimanagement.demo.enums.UserRoleEnums;
 import com.apimanagement.demo.form.EmailLoginForm;
 import com.apimanagement.demo.form.PhoneLoginForm;
 import com.apimanagement.demo.utils.CookieUtil;
+import com.apimanagement.demo.utils.Md5Util;
 import com.apimanagement.demo.utils.MessageUtil;
 import com.apimanagement.demo.vo.LoginResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,24 +45,29 @@ public class UserLoginController {
 
         if(user == null){
             map.put("loginResult", new LoginResult(100, "邮箱不存在"));
+            System.out.println(100);
             return new ModelAndView("emailLogin", map);
         }
 
-        if(!user.getPassword().equals(emailLoginForm.getPassword())){
+        if(!user.getPassword().equals(Md5Util.encrypt(emailLoginForm.getPassword()))){
             map.put("loginResult", new LoginResult(110, "邮箱或密码错误"));
+            System.out.println(110);
             return new ModelAndView("emailLogin", map);
         }
 
         if(user.getRoleId() == UserRoleEnums.ROLE_USER.getCode()){
             map.put("loginResult", new LoginResult(200, "普通用户登陆成功"));
+            System.out.println(200);
             return new ModelAndView("redirect:/userIndex", map);
         }
 
         if(user.getRoleId() == UserRoleEnums.ROLE_ADMIN.getCode()){
             map.put("loginResult", new LoginResult(210, "管理员登陆成功"));
+            System.out.println(210);
             return new ModelAndView("redirect:/managerIndex", map);
         }
 
+        System.out.println("success");
         return new ModelAndView("emailLogin", map);
 
     }

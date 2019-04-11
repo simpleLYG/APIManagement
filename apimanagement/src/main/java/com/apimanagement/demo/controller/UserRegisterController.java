@@ -5,10 +5,12 @@ import com.apimanagement.demo.bean.User;
 import com.apimanagement.demo.dao.UserDao;
 import com.apimanagement.demo.form.RegisterForm;
 import com.apimanagement.demo.utils.CookieUtil;
+import com.apimanagement.demo.utils.Md5Util;
 import com.apimanagement.demo.utils.MessageUtil;
 import com.apimanagement.demo.vo.RegisterResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -67,7 +69,8 @@ public class UserRegisterController {
 
         user = new User();
 
-        user.setPassword(registerForm.getPassword());
+        user.setUsername(registerForm.getPhone());
+        user.setPassword(Md5Util.encrypt(registerForm.getPassword()));
         user.setPhone(registerForm.getPhone());
         user.setEmail(registerForm.getEmail());
         userDao.save(user);
