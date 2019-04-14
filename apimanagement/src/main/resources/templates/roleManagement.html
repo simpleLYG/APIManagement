@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+    <thead>
+        <tr>
+            <td>roleId</td>
+            <td>name</td>
+            <td>authorityId</td>
+            <td>desc</td>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:each="role : ${roleList}">
+        <td th:text="${role.roleId}"></td>
+        <td th:text="${role.name}"></td>
+        <td th:text="${role.authorityId}"></td>
+        <td th:text="${role.desc}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
